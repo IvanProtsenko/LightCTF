@@ -21,5 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', 'TasksController@index');
 Route::get('/scoreboard', 'HomeController@score')->name('home');
 Route::get('/scoreboard', 'UsersController@index');
-Route::get('/add/{id}', 'HomeController@add')->name('home');
+Route::get('/add/{id}', 'UsersController@add')->name('home');
 

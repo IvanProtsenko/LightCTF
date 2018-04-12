@@ -30,8 +30,5 @@ class HomeController extends Controller
     {
         return view('scoreboard');
     }
-    public function add($id)
-    {
-        return view('add/'.$id);
-    }
+
 }
