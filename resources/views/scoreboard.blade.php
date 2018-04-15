@@ -5,14 +5,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @foreach($users as $user)
+                @foreach($users->sortByDesc('score') as $user)
+
                     <div class="card mb-3">
                         <div class="card-body">
-
-                            <h2>Name: {{$user->name}}</h2> <h5>Score: {{$user->name}}</h5>
+                            <h2>Name: {{$user->name}}</h2>
+                            <h5>Score: {{$user->score}}</h5>
                         </div>
                     </div>
-                @endforeach
+                    @endforeach
             </div>
         </div>
     </div>

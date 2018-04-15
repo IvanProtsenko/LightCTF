@@ -18,8 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home', 'TasksController@index');
-Route::get('/scoreboard', 'HomeController@score')->name('home');
-Route::get('/scoreboard', 'UsersController@index');
-Route::get('/add/{id}', 'UsersController@add')->name('home');
+Route::get('/home', 'UsersController@index');
+Route::post('/home/add_solution/{task_id}', 'TasksController@add_solution');
 
+Route::get('/scoreboard', 'HomeController@score')->name('home');
+Route::get('/scoreboard', 'UsersController@score');

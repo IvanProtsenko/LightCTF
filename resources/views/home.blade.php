@@ -14,24 +14,21 @@
                     <h2>{{$task->name}}</h2>
                     <h4>{{$task->text}}</h4>
 
-                    <form>
-                        @csrf
-                        <br><h5>Ответ:</h5>
-                        <input type="text" class="form-control" name="r"><br>
-                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->id); ?>">
-                        <input type="submit" class = "btn btn-primary">
-                    </form>
-
-                    @if (($r === true) && ($id == ($task->id)))
+                    @if($user->tasks->contains($task))
                         Вы решили задачу правильно и заработали {{$task->price}} баллов!
                         <script>
                             var card = document.getElementsByClassName("card-body");
-                            card[<?php echo $id-1; ?>].className += " bg-success";
+                            card[{{ $task->id-1}}].className += " bg-success";
                         </script>
-                        <?php header('Location: /add/'.$task->id); exit; ?>
-                    @elseif (($r === false) && ($id == ($task->id)))
-                        Неправильно, попробуйте еще раз
-                    @endif
+                    @else
+                    <form method = post action="/home/add_solution/{{$task->id}}">
+                        @csrf
+                        <br><h5>Ответ:</h5>
+                        <input type="text" class="form-control" name="flag"><br>
+                        <input type="submit" class = "btn btn-primary">
+                    </form>
+
+                        @endif
                 </div>
             </div>
             @endforeach

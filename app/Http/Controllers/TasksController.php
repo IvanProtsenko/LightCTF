@@ -3,26 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Tasks;
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
-    public function index(Request $request)
+    public function __construct()
     {
-        $tasks = tasks::all();
-        $f = isset($request->r);
-        $id = $request->id;
-        if($f == true) {
-            $r = $request->r;
-            if($r == ($tasks[$id-1]->flag)) {
-                return view('home', ['tasks' => $tasks, 'r' => true, 'id' => $id]);
-            }
-            elseif($r != ($tasks[$id-1]->flag)) {
-                return view('home', ['tasks' => $tasks, 'r' => false, 'id' => $id]);
-            }
+        $this->middleware('auth');
+    }
+
+    public function add_solution($task_id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $task = Tasks::findOrFail($task_id);
+
+        if ($request->has('flag') and $task->flag == $request->flag)
+        {
+            $user->tasks()->attach($task_id);
         }
-        else  {
-            return view('home', ['tasks' => $tasks, 'r' => 0, 'id' => $id]);
-        }
+        return redirect('/home');
+
     }
 }

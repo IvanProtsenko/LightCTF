@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Task_user;
+use App\Tasks;
+use Auth;
 
 
 use Illuminate\Http\Request;
@@ -12,15 +13,18 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = user::all();
-        return view('/scoreboard', ['users' => $users]);
+        $users = User::findOrFail(Auth::User()->id);
+        $task = Tasks::all();
+        return view('home', ['user' => $users, 'tasks' => $task]);
     }
-    public function add($id)
+    public function score()
     {
-        $phone = new Task_user();
-        $phone->user_id = Auth::User()->id;
-        $phone->contact_id = $id;
-        $phone->save();
-        return view('home');
+        $users = user::all();
+        $tasks = Tasks::all();
+
+        foreach ($users as $key => $user) {
+            $users[$key]->score = $user->tasks()->sum('price');
+        }
+        return view('scoreboard', ['users' => $users, 'tasks' => $tasks]);
     }
 }
